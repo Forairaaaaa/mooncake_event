@@ -23,7 +23,7 @@ eb.fire("三点几啦");
 
 // 发布事件到事件队列
 for (int i = 0; i < 6; i++)
-	eb.fireAsync("三点几啦");
+    eb.fireAsync("三点几啦");
 
 // 处理事件队列
 eb.handleEventQueue();
