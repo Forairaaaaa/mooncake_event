@@ -22,12 +22,10 @@ em.fire("三点几啦", nullptr, true);
 // 啊?
 
 // 发布到事件队列（不立即触发）
-std::cout << "firing..\n";
 for (int i = 0; i < 6; i++)
     em.fire("三点几啦");
 
 // 用 update() 统一触发
-std::cout << "handling..\n";
 em.update();
 // 输出:
 // 饮茶先啦
