@@ -24,6 +24,9 @@ int main()
 
     // Fire at once with no argument
     EventBroker::Fire("三点几啦", nullptr, true);
+    // Output:
+    // 饮茶先啦
+    // 啊?
 
     // Fire events into event queue
     std::cout << "firing..\n";
@@ -33,8 +36,10 @@ int main()
     // Handle by update
     std::cout << "handling..\n";
     EventBroker::Update();
-
-    EventBroker::Destroy();
+    // Output:
+    // 饮茶先啦
+    // 啊?
+    // x6
 
     return 0;
 }
