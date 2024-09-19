@@ -9,24 +9,24 @@ Simple cpp event broker
 void onTeaTime1(EventArgs_t* args) { std::cout << "饮茶先啦\n"; }
 void onTeaTime2(EventArgs_t* args) { std::cout << "啊?\n"; }
 
-EventBroker em;
+EventBroker eb;
 
 // 监听事件
-em.listen("三点几啦", onTeaTime1);
-em.listen("三点几啦", onTeaTime2);
+eb.listen("三点几啦", onTeaTime1);
+eb.listen("三点几啦", onTeaTime2);
 
-// 发布事件，不带参，并且要求立即触发
-em.fire("三点几啦", nullptr, true);
+// 发布事件
+eb.fire("三点几啦");
 // 输出:
 // 饮茶先啦
 // 啊?
 
-// 发布到事件队列（不立即触发）
+// 发布事件到事件队列
 for (int i = 0; i < 6; i++)
-    em.fire("三点几啦");
+	eb.fireAsync("三点几啦");
 
-// 用 update() 统一触发
-em.update();
+// 处理事件队列
+eb.handleEventQueue();
 // 输出:
 // 饮茶先啦
 // 啊?
@@ -36,13 +36,12 @@ em.update();
 单例封装：
 
 ```cpp
-void onTeaTime1(EventArgs_t* args) { std::cout << "饮茶先啦\n"; }
-void onTeaTime2(EventArgs_t* args) { std::cout << "啊?\n"; }
-
+// 监听事件
 EventBroker::Listen("三点几啦", onTeaTime1);
 EventBroker::Listen("三点几啦", onTeaTime2);
 
-EventBroker::Fire("三点几啦", nullptr, true);
+// 发布事件
+EventBroker::Fire("三点几啦");
 // 输出:
 // 饮茶先啦
 // 啊?
