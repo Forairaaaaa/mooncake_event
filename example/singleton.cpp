@@ -22,16 +22,16 @@ int main()
     EventBroker::Listen("三点几啦", onTeaTime1);
     EventBroker::Listen("三点几啦", onTeaTime2);
 
-    // Fire at once with no argument
-    EventBroker::Fire("三点几啦", nullptr, true);
+    // Fire event
+    EventBroker::Fire("三点几啦");
     // Output:
     // 饮茶先啦
     // 啊?
 
-    // Fire events into event queue
+    // Fire events into event queue, without argument (nullptr)
     std::cout << "firing..\n";
     for (int i = 0; i < 6; i++)
-        EventBroker::Fire("三点几啦");
+        EventBroker::Fire("三点几啦", nullptr, false);
 
     // Handle by update
     std::cout << "handling..\n";

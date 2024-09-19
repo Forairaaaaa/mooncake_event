@@ -50,7 +50,7 @@ namespace SimpleEvent
          * @return true
          * @return false
          */
-        bool fire(const std::string& eventType, EventArgs_t* args = nullptr, bool handleAtOnce = false);
+        bool fire(const std::string& eventType, EventArgs_t* args = nullptr, bool handleAtOnce = true);
 
         /**
          * @brief Listen to an event
@@ -87,7 +87,7 @@ namespace SimpleEvent
          * @return true
          * @return false
          */
-        static bool Fire(const std::string& eventType, EventArgs_t* args = nullptr, bool handleAtOnce = false);
+        static bool Fire(const std::string& eventType, EventArgs_t* args = nullptr, bool handleAtOnce = true);
 
         /**
          * @brief Listen to an event
