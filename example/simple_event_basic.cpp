@@ -13,6 +13,7 @@
 
 using namespace SimpleEvent;
 
+// 事件回调
 void onTeaTime1(EventArgs_t* args) { std::cout << "饮茶先啦\n"; }
 void onTeaTime2(EventArgs_t* args) { std::cout << "啊?\n"; }
 
@@ -20,25 +21,26 @@ int main()
 {
     EventBroker em;
 
-    // Listen to the event
+    // 监听事件
     em.listen("三点几啦", onTeaTime1);
     em.listen("三点几啦", onTeaTime2);
 
-    // Fire event
+    // 发布事件
+    std::cout << ">> firing..\n";
     em.fire("三点几啦");
-    // Output:
+    // 输出:
     // 饮茶先啦
     // 啊?
 
-    // Fire events into event queue, without argument (nullptr)
-    std::cout << "firing..\n";
+    // 发布事件到事件队列
+    std::cout << ">> firing..\n";
     for (int i = 0; i < 6; i++)
-        em.fire("三点几啦", nullptr, false);
+        em.fireAsync("三点几啦");
 
-    // Handle by update
-    std::cout << "handling..\n";
-    em.update();
-    // Output:
+    // 处理事件队列
+    std::cout << ">> handling..\n";
+    em.handleEventQueue();
+    // 输出:
     // 饮茶先啦
     // 啊?
     // x6

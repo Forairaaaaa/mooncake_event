@@ -12,30 +12,19 @@
 
 using namespace SimpleEvent;
 
-bool EventBroker::fire(const std::string& eventType, EventArgs_t* args, bool handleAtOnce)
+bool EventBroker::fire(const std::string& eventType, EventArgs_t* args)
 {
     if (eventType.empty())
         return false;
 
-    // Handle right away
-    if (handleAtOnce)
+    // Find listener
+    auto iter = _listener_list.find(eventType);
+    if (iter != _listener_list.end())
     {
-        auto iter = _listener_list.find(eventType);
-        if (iter != _listener_list.end())
-        {
-            // Invoke callbacks
-            for (const auto& i : iter->second)
-                i(args);
-        }
-
-        return true;
+        // Invoke callbacks
+        for (const auto& i : iter->second)
+            i(args);
     }
-
-    // Stack new event
-    Event_t new_event;
-    new_event.type = eventType;
-    new_event.args = args;
-    _event_queue.push_back(new_event);
 
     return true;
 }
@@ -53,7 +42,21 @@ bool EventBroker::listen(const std::string& eventType, std::function<void(EventA
     return true;
 }
 
-void EventBroker::update()
+bool EventBroker::fireAsync(const std::string& eventType, EventArgs_t* args)
+{
+    if (eventType.empty())
+        return false;
+
+    // Queue in
+    Event_t new_event;
+    new_event.type = eventType;
+    new_event.args = args;
+    _event_queue.push_back(new_event);
+
+    return true;
+}
+
+void EventBroker::handleEventQueue()
 {
     for (const auto& event : _event_queue)
     {

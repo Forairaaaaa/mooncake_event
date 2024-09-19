@@ -42,18 +42,17 @@ namespace SimpleEvent
 
     public:
         /**
-         * @brief Fire an event
+         * @brief Fire event
          *
          * @param eventType
          * @param args
-         * @param handleAtOnce
          * @return true
          * @return false
          */
-        bool fire(const std::string& eventType, EventArgs_t* args = nullptr, bool handleAtOnce = true);
+        bool fire(const std::string& eventType, EventArgs_t* args = nullptr);
 
         /**
-         * @brief Listen to an event
+         * @brief Listen to event
          *
          * @param eventType
          * @param onNotify
@@ -63,10 +62,20 @@ namespace SimpleEvent
         bool listen(const std::string& eventType, std::function<void(EventArgs_t*)> onNotify);
 
         /**
-         * @brief Handle event queue and triggering callbacks
+         * @brief Fire event into event queue
+         *
+         * @param eventType
+         * @param args
+         * @return true
+         * @return false
+         */
+        bool fireAsync(const std::string& eventType, EventArgs_t* args = nullptr);
+
+        /**
+         * @brief Handle event queue
          *
          */
-        void update();
+        void handleEventQueue();
 
         /**
          * @brief Reset and clear all shit
@@ -79,18 +88,17 @@ namespace SimpleEvent
         /* -------------------------------------------------------------------------- */
     public:
         /**
-         * @brief Fire an event
+         * @brief Fire event
          *
          * @param eventType
          * @param args
-         * @param handleAtOnce
          * @return true
          * @return false
          */
-        static bool Fire(const std::string& eventType, EventArgs_t* args = nullptr, bool handleAtOnce = true);
+        static bool Fire(const std::string& eventType, EventArgs_t* args = nullptr);
 
         /**
-         * @brief Listen to an event
+         * @brief Listen event
          *
          * @param eventType
          * @param onNotify
@@ -100,10 +108,20 @@ namespace SimpleEvent
         static bool Listen(const std::string& eventType, std::function<void(EventArgs_t*)> onNotify);
 
         /**
-         * @brief Handle event queue and triggering callbacks
+         * @brief Fire event into event queue
+         *
+         * @param eventType
+         * @param args
+         * @return true
+         * @return false
+         */
+        static bool FireAsync(const std::string& eventType, EventArgs_t* args = nullptr);
+
+        /**
+         * @brief Handle event queue and notify listeners
          *
          */
-        static void Update();
+        static void HandleEventQueue();
 
         /**
          * @brief Reset and clear all shit

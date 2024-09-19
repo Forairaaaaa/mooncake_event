@@ -21,17 +21,16 @@ static EventBroker* _get()
     return _event_manger;
 }
 
-bool EventBroker::Fire(const std::string& eventType, EventArgs_t* args, bool handleAtOnce)
-{
-    return _get()->fire(eventType, args, handleAtOnce);
-}
+bool EventBroker::Fire(const std::string& eventType, EventArgs_t* args) { return _get()->fire(eventType, args); }
+
+bool EventBroker::FireAsync(const std::string& eventType, EventArgs_t* args) { return _get()->fireAsync(eventType, args); }
 
 bool EventBroker::Listen(const std::string& eventType, std::function<void(EventArgs_t*)> onNotify)
 {
     return _get()->listen(eventType, onNotify);
 }
 
-void EventBroker::Update() { _get()->update(); }
+void EventBroker::HandleEventQueue() { _get()->handleEventQueue(); }
 
 void EventBroker::Reset() { _get()->reset(); }
 
