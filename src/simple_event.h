@@ -9,5 +9,69 @@
  *
  */
 #pragma once
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <functional>
 
-void print_shit();
+namespace SimpleEvent
+{
+    /**
+     * @brief Override to create your own argument shit
+     *
+     */
+    struct EventArgs_t
+    {
+    public:
+        virtual ~EventArgs_t() = default;
+    };
+
+    class EventManager
+    {
+    private:
+        struct Event_t
+        {
+            std::string type;
+            EventArgs_t* args = nullptr;
+        };
+
+        typedef std::vector<std::function<void(EventArgs_t*)>> Listener_t;
+
+        std::vector<Event_t> _event_queue;
+        std::unordered_map<std::string, Listener_t> _listener_list;
+
+    public:
+        /**
+         * @brief Fire an event
+         *
+         * @param eventType
+         * @param args
+         * @param handleAtOnce
+         * @return true
+         * @return false
+         */
+        bool fire(const std::string& eventType, EventArgs_t* args = nullptr, bool handleAtOnce = false);
+
+        /**
+         * @brief Listen to an event
+         *
+         * @param eventType
+         * @param onNotify
+         * @return true
+         * @return false
+         */
+        bool listen(const std::string& eventType, std::function<void(EventArgs_t*)> onNotify);
+
+        /**
+         * @brief Handle event queue and triggering callbacks
+         *
+         */
+        void update();
+
+        /**
+         * @brief Reset and clear all shit
+         *
+         */
+        void reset();
+    };
+} // namespace SimpleEvent
