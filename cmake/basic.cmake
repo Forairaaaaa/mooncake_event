@@ -27,3 +27,4 @@ endif()
 # CTest
 enable_testing()
 add_test(simple_event_basic example/simple_event_basic)
+add_test(singleton example/singleton)

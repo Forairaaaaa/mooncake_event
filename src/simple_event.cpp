@@ -12,7 +12,7 @@
 
 using namespace SimpleEvent;
 
-bool EventManager::fire(const std::string& eventType, EventArgs_t* args, bool handleAtOnce)
+bool EventBroker::fire(const std::string& eventType, EventArgs_t* args, bool handleAtOnce)
 {
     if (eventType.empty())
         return false;
@@ -40,7 +40,7 @@ bool EventManager::fire(const std::string& eventType, EventArgs_t* args, bool ha
     return true;
 }
 
-bool EventManager::listen(const std::string& eventType, std::function<void(EventArgs_t*)> onNotify)
+bool EventBroker::listen(const std::string& eventType, std::function<void(EventArgs_t*)> onNotify)
 {
     if (eventType.empty())
         return false;
@@ -53,7 +53,7 @@ bool EventManager::listen(const std::string& eventType, std::function<void(Event
     return true;
 }
 
-void EventManager::update()
+void EventBroker::update()
 {
     for (const auto& event : _event_queue)
     {
@@ -70,7 +70,7 @@ void EventManager::update()
     _event_queue.clear();
 }
 
-void EventManager::reset()
+void EventBroker::reset()
 {
     _event_queue.clear();
     _listener_list.clear();

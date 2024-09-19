@@ -26,7 +26,7 @@ namespace SimpleEvent
         virtual ~EventArgs_t() = default;
     };
 
-    class EventManager
+    class EventBroker
     {
     private:
         struct Event_t
@@ -73,5 +73,48 @@ namespace SimpleEvent
          *
          */
         void reset();
+
+        /* -------------------------------------------------------------------------- */
+        /*                               Singleton wrap                               */
+        /* -------------------------------------------------------------------------- */
+    public:
+        /**
+         * @brief Fire an event
+         *
+         * @param eventType
+         * @param args
+         * @param handleAtOnce
+         * @return true
+         * @return false
+         */
+        static bool Fire(const std::string& eventType, EventArgs_t* args = nullptr, bool handleAtOnce = false);
+
+        /**
+         * @brief Listen to an event
+         *
+         * @param eventType
+         * @param onNotify
+         * @return true
+         * @return false
+         */
+        static bool Listen(const std::string& eventType, std::function<void(EventArgs_t*)> onNotify);
+
+        /**
+         * @brief Handle event queue and triggering callbacks
+         *
+         */
+        static void Update();
+
+        /**
+         * @brief Reset and clear all shit
+         *
+         */
+        static void Reset();
+
+        /**
+         * @brief Destroy all shit that singleton taking
+         *
+         */
+        static void Destroy();
     };
 } // namespace SimpleEvent

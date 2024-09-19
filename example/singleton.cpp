@@ -1,5 +1,5 @@
 /**
- * @file simple_event_basic.cpp
+ * @file singleton.cpp
  * @author Forairaaaaa
  * @brief
  * @version 0.1
@@ -18,23 +18,23 @@ void onTeaTime2(EventArgs_t* args) { std::cout << "啊?\n"; }
 
 int main()
 {
-    EventBroker em;
-
     // Listen to the event
-    em.listen("三点几啦", onTeaTime1);
-    em.listen("三点几啦", onTeaTime2);
+    EventBroker::Listen("三点几啦", onTeaTime1);
+    EventBroker::Listen("三点几啦", onTeaTime2);
 
     // Fire at once with no argument
-    em.fire("三点几啦", nullptr, true);
+    EventBroker::Fire("三点几啦", nullptr, true);
 
     // Fire events into event queue
     std::cout << "firing..\n";
     for (int i = 0; i < 6; i++)
-        em.fire("三点几啦");
+        EventBroker::Fire("三点几啦");
 
     // Handle by update
     std::cout << "handling..\n";
-    em.update();
+    EventBroker::Update();
+
+    EventBroker::Destroy();
 
     return 0;
 }
