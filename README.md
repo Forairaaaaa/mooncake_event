@@ -33,7 +33,8 @@ eb.handleAsyncEvents();
 // x6
 ```
 
-`fireAsync` 并非线程异步实现，只是把事件暂时队列起来，在调用 `handleAsyncEvents` 时统一处理
+`fireAsync` 并非线程异步实现，只是把事件暂时队列起来，在调用 `handleAsyncEvents` 时再统一处理
+
 如果需要线程异步，把 `handleAsyncEvents` 放线程里加锁即可
 
 单例封装：
@@ -52,3 +53,36 @@ EventBroker::Fire("三点几啦");
 // ... 一勾样的
 ```
 
+数据交换：
+
+提供了事件参数的基类，以便派生自定义参数
+
+```cpp
+/**
+ * @brief Override to create your own argument shit
+ *
+ */
+struct EventArgs_t
+{
+public:
+    virtual ~EventArgs_t() = default;
+};
+```
+
+所以可以实现类似发布订阅的交换模式
+
+```cpp
+// 订阅者
+EventBroker::StartListen("topic-player-status", onPlayerStatusUpdate);
+
+// 派生事件参数
+struct PlayerStatus_t : public EventArgs_t
+{
+    int hp;
+    // ...
+};
+
+// 发布者
+player_status.hp = 66;
+EventBroker::Fire("topic-player-hp", &player_status);
+```
