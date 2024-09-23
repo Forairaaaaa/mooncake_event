@@ -26,19 +26,33 @@ namespace SimpleEvent
         virtual ~EventArgs_t() = default;
     };
 
+    /**
+     * @brief A event broker to handle event firing and listening and shit
+     *
+     */
     class EventBroker
     {
     private:
-        struct Event_t
+        /* -------------------------------- Listener -------------------------------- */
+        struct Listener_t
+        {
+            int id;
+            std::function<void(EventArgs_t*)> callback;
+        };
+
+        typedef std::vector<Listener_t> ListenerList_t;
+
+        int _next_listener_id = 0;
+        std::unordered_map<std::string, ListenerList_t> _event_map;
+
+        /* ------------------------------- Async fire ------------------------------- */
+        struct AsyncEvent_t
         {
             std::string type;
             EventArgs_t* args = nullptr;
         };
 
-        typedef std::vector<std::function<void(EventArgs_t*)>> Listener_t;
-
-        std::vector<Event_t> _event_queue;
-        std::unordered_map<std::string, Listener_t> _listener_list;
+        std::vector<AsyncEvent_t> _async_event_queue;
 
     public:
         /**
@@ -52,17 +66,26 @@ namespace SimpleEvent
         bool fire(const std::string& eventType, EventArgs_t* args = nullptr);
 
         /**
-         * @brief Listen to event
+         * @brief Start listening event, return listener id
          *
          * @param eventType
          * @param onNotify
+         * @return int
+         */
+        int startListen(const std::string& eventType, std::function<void(EventArgs_t*)> onNotify);
+
+        /**
+         * @brief Stop listening event
+         *
+         * @param eventType
+         * @param listenerId
          * @return true
          * @return false
          */
-        bool listen(const std::string& eventType, std::function<void(EventArgs_t*)> onNotify);
+        bool stopListen(const std::string& eventType, int listenerId);
 
         /**
-         * @brief Fire event into event queue
+         * @brief Fire event into async event queue
          *
          * @param eventType
          * @param args
@@ -72,10 +95,10 @@ namespace SimpleEvent
         bool fireAsync(const std::string& eventType, EventArgs_t* args = nullptr);
 
         /**
-         * @brief Handle event queue
+         * @brief Handle easync event queue and clear
          *
          */
-        void handleEventQueue();
+        void handleAsyncEvents();
 
         /**
          * @brief Reset and clear all shit
@@ -98,17 +121,26 @@ namespace SimpleEvent
         static bool Fire(const std::string& eventType, EventArgs_t* args = nullptr);
 
         /**
-         * @brief Listen event
+         * @brief Start listening event, return listener id
          *
          * @param eventType
          * @param onNotify
+         * @return int
+         */
+        static int StartListen(const std::string& eventType, std::function<void(EventArgs_t*)> onNotify);
+
+        /**
+         * @brief Stop listening event
+         *
+         * @param eventType
+         * @param listenerId
          * @return true
          * @return false
          */
-        static bool Listen(const std::string& eventType, std::function<void(EventArgs_t*)> onNotify);
+        static bool StopListen(const std::string& eventType, int listenerId);
 
         /**
-         * @brief Fire event into event queue
+         * @brief Fire event into async event queue
          *
          * @param eventType
          * @param args
@@ -118,10 +150,10 @@ namespace SimpleEvent
         static bool FireAsync(const std::string& eventType, EventArgs_t* args = nullptr);
 
         /**
-         * @brief Handle event queue and notify listeners
+         * @brief Handle easync event queue and clear
          *
          */
-        static void HandleEventQueue();
+        static void HandleAsyncEvents();
 
         /**
          * @brief Reset and clear all shit

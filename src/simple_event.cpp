@@ -17,19 +17,21 @@ bool EventBroker::fire(const std::string& eventType, EventArgs_t* args)
     if (eventType.empty())
         return false;
 
-    // Find listener
-    auto iter = _listener_list.find(eventType);
-    if (iter != _listener_list.end())
+    // Find event
+    auto event_pair = _event_map.find(eventType);
+    if (event_pair != _event_map.end())
     {
-        // Invoke callbacks
-        for (const auto& i : iter->second)
-            i(args);
+        // Invoke listener callbacks
+        for (const auto& listener : event_pair->second)
+            listener.callback((args));
     }
+    else
+        return false;
 
     return true;
 }
 
-bool EventBroker::listen(const std::string& eventType, std::function<void(EventArgs_t*)> onNotify)
+int EventBroker::startListen(const std::string& eventType, std::function<void(EventArgs_t*)> onNotify)
 {
     if (eventType.empty())
         return false;
@@ -37,9 +39,34 @@ bool EventBroker::listen(const std::string& eventType, std::function<void(EventA
     if (onNotify == nullptr)
         return false;
 
-    _listener_list[eventType].push_back(onNotify);
+    // Create listener info and hash in
+    _next_listener_id++;
+    _event_map[eventType].push_back({_next_listener_id, onNotify});
 
-    return true;
+    return _next_listener_id;
+}
+
+bool EventBroker::stopListen(const std::string& eventType, int listenerId)
+{
+    if (eventType.empty())
+        return false;
+
+    // Find event
+    auto event_pair = _event_map.find(eventType);
+    if (event_pair != _event_map.end())
+    {
+        // Find listener
+        for (auto listener = event_pair->second.begin(); listener != event_pair->second.end(); listener++)
+        {
+            if (listener->id == listenerId)
+            {
+                event_pair->second.erase(listener);
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 bool EventBroker::fireAsync(const std::string& eventType, EventArgs_t* args)
@@ -48,33 +75,35 @@ bool EventBroker::fireAsync(const std::string& eventType, EventArgs_t* args)
         return false;
 
     // Queue in
-    Event_t new_event;
+    AsyncEvent_t new_event;
     new_event.type = eventType;
     new_event.args = args;
-    _event_queue.push_back(new_event);
+    _async_event_queue.push_back(new_event);
 
     return true;
 }
 
-void EventBroker::handleEventQueue()
+void EventBroker::handleAsyncEvents()
 {
-    for (const auto& event : _event_queue)
+    for (const auto& async_event : _async_event_queue)
     {
-        auto iter = _listener_list.find(event.type);
-        if (iter != _listener_list.end())
+        // Find event
+        auto event_pair = _event_map.find(async_event.type);
+        if (event_pair != _event_map.end())
         {
-            // Invoke callbacks
-            for (const auto& i : iter->second)
-                i(event.args);
+            // Invoke listener callbacks
+            for (const auto& i : event_pair->second)
+                i.callback(async_event.args);
         }
     }
 
-    // Pop!
-    _event_queue.clear();
+    // Pop all shit
+    _async_event_queue.clear();
 }
 
 void EventBroker::reset()
 {
-    _event_queue.clear();
-    _listener_list.clear();
+    _async_event_queue.clear();
+    _event_map.clear();
+    _next_listener_id = 0;
 }

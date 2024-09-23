@@ -20,8 +20,8 @@ void onTeaTime2(EventArgs_t* args) { std::cout << "啊?\n"; }
 int main()
 {
     // 监听事件
-    EventBroker::Listen("三点几啦", onTeaTime1);
-    EventBroker::Listen("三点几啦", onTeaTime2);
+    EventBroker::StartListen("三点几啦", onTeaTime1);
+    EventBroker::StartListen("三点几啦", onTeaTime2);
 
     // 发布事件
     std::cout << ">> firing..\n";
@@ -30,14 +30,14 @@ int main()
     // 饮茶先啦
     // 啊?
 
-    // 发布事件到事件队列
+    // 发布异步事件
     std::cout << ">> firing..\n";
     for (int i = 0; i < 6; i++)
         EventBroker::FireAsync("三点几啦");
 
-    // 处理事件队列
+    // 处理异步事件
     std::cout << ">> handling..\n";
-    EventBroker::HandleEventQueue();
+    EventBroker::HandleAsyncEvents();
     // 输出:
     // 饮茶先啦
     // 啊?

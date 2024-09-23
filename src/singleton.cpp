@@ -25,12 +25,14 @@ bool EventBroker::Fire(const std::string& eventType, EventArgs_t* args) { return
 
 bool EventBroker::FireAsync(const std::string& eventType, EventArgs_t* args) { return _get()->fireAsync(eventType, args); }
 
-bool EventBroker::Listen(const std::string& eventType, std::function<void(EventArgs_t*)> onNotify)
+int EventBroker::StartListen(const std::string& eventType, std::function<void(EventArgs_t*)> onNotify)
 {
-    return _get()->listen(eventType, onNotify);
+    return _get()->startListen(eventType, onNotify);
 }
 
-void EventBroker::HandleEventQueue() { _get()->handleEventQueue(); }
+bool EventBroker::StopListen(const std::string& eventType, int listenerId) { return _get()->stopListen(eventType, listenerId); }
+
+void EventBroker::HandleAsyncEvents() { _get()->handleAsyncEvents(); }
 
 void EventBroker::Reset() { _get()->reset(); }
 
