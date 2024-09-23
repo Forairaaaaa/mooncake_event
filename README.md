@@ -1,6 +1,6 @@
-# Mooncake
+# Mooncake Event
 
-Simple cpp event broker
+Simple cpp event broker for mooncake framework
 
 很嗨简单的 cpp 事件调度器实现
 
@@ -12,8 +12,8 @@ void onTeaTime2(EventArgs_t* args) { std::cout << "啊?\n"; }
 EventBroker eb;
 
 // 监听事件
-eb.listen("三点几啦", onTeaTime1);
-eb.listen("三点几啦", onTeaTime2);
+eb.startListen("三点几啦", onTeaTime1);
+eb.startListen("三点几啦", onTeaTime2);
 
 // 发布事件
 eb.fire("三点几啦");
@@ -21,12 +21,12 @@ eb.fire("三点几啦");
 // 饮茶先啦
 // 啊?
 
-// 发布事件到事件队列
+// 发布异步事件
 for (int i = 0; i < 6; i++)
     eb.fireAsync("三点几啦");
 
-// 处理事件队列
-eb.handleEventQueue();
+// 处理异步事件
+eb.handleAsyncEvents();
 // 输出:
 // 饮茶先啦
 // 啊?
@@ -37,8 +37,8 @@ eb.handleEventQueue();
 
 ```cpp
 // 监听事件
-EventBroker::Listen("三点几啦", onTeaTime1);
-EventBroker::Listen("三点几啦", onTeaTime2);
+EventBroker::StartListen("三点几啦", onTeaTime1);
+EventBroker::StartListen("三点几啦", onTeaTime2);
 
 // 发布事件
 EventBroker::Fire("三点几啦");
