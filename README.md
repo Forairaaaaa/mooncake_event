@@ -69,7 +69,7 @@ public:
 };
 ```
 
-所以可以实现类似发布订阅的交换模式
+所以可以实现类似 `发布/订阅` 的交换模式：
 
 ```cpp
 // 订阅者
@@ -85,4 +85,16 @@ struct PlayerStatus_t : public EventArgs_t
 // 发布者
 player_status.hp = 66;
 EventBroker::Fire("topic-player-hp", &player_status);
+```
+
+或者反过来实现类似 `请求/应答` 的交换模式：
+
+```cpp
+// 应答服务
+EventBroker::StartListen("service-fetch-player-status", [](EventArgs_t* args){
+    (PlayerStatus_t*)args.hp = 233;
+});
+
+// 发送请求
+EventBroker::Fire("service-fetch-player-status", &player_status);
 ```
