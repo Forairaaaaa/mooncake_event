@@ -33,6 +33,9 @@ eb.handleAsyncEvents();
 // x6
 ```
 
+`fireAsync` 并非线程异步实现，只是把事件暂时队列起来，在调用 `handleAsyncEvents` 时统一处理
+如果需要线程异步，把 `handleAsyncEvents` 放线程里加锁即可
+
 单例封装：
 
 ```cpp
