@@ -55,7 +55,7 @@ EventBroker::Fire("三点几啦");
 
 #### 数据交换：
 
-提供了事件参数的基类，以便派生自定义参数
+提供了事件参数的基类，以便派生自定义参数：
 
 ```cpp
 /**
@@ -87,7 +87,7 @@ player_status.hp = 66;
 EventBroker::Fire("topic-player-hp", &player_status);
 ```
 
-或者反过来实现类似 `请求/应答` 的交换模式：
+或者反过来 `请求/应答` 模式：
 
 ```cpp
 // 应答服务
