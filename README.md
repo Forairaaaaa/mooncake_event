@@ -35,7 +35,7 @@ eb.handleAsyncEvents();
 
 `fireAsync` 并非线程异步实现，只是把事件暂时队列起来，在调用 `handleAsyncEvents` 时再统一处理
 
-如果需要线程异步，把 `handleAsyncEvents` 放线程里加锁即可
+如果需要线程异步，可以把 `handleAsyncEvents` 放线程里，给实例加锁就行
 
 #### 单例封装：
 
@@ -91,10 +91,11 @@ EventBroker::Fire("topic-player-hp", &player_status);
 
 ```cpp
 // 应答服务
-EventBroker::StartListen("service-fetch-player-status", [](EventArgs_t* args){
-    (PlayerStatus_t*)args.hp = 233;
+EventBroker::StartListen("service-player-status", [](EventArgs_t* args){
+    auto player_status = (PlayerStatus_t*)args;
+    player_status.hp = 233;
 });
 
 // 发送请求
-EventBroker::Fire("service-fetch-player-status", &player_status);
+EventBroker::Fire("service-player-status", &player_status);
 ```
