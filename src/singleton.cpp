@@ -8,16 +8,16 @@
  * @copyright Copyright (c) 2024
  *
  */
-#include "simple_event.h"
+#include "mooncake_event.h"
 
-using namespace SimpleEvent;
+using namespace Mooncake;
 
 static EventBroker* _event_manger = nullptr;
 
 static EventBroker* _get()
 {
     if (_event_manger == nullptr)
-        _event_manger = new SimpleEvent::EventBroker;
+        _event_manger = new Mooncake::EventBroker;
     return _event_manger;
 }
 

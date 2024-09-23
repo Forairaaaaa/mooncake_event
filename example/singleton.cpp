@@ -8,10 +8,10 @@
  * @copyright Copyright (c) 2024
  *
  */
-#include <simple_event.h>
+#include <mooncake_event.h>
 #include <iostream>
 
-using namespace SimpleEvent;
+using namespace Mooncake;
 
 // 事件回调
 void onTeaTime1(EventArgs_t* args) { std::cout << "饮茶先啦\n"; }

@@ -1,4 +1,4 @@
-# SimpleEvent
+# Mooncake
 
 Simple cpp event broker
 

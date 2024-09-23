@@ -1,9 +1,9 @@
 /**
- * @file simple_event.h
+ * @file mooncake_event.h
  * @author Forairaaaaa
  * @brief
  * @version 0.1
- * @date 2024-09-19
+ * @date 2024-09-23
  *
  * @copyright Copyright (c) 2024
  *
@@ -14,7 +14,7 @@
 #include <unordered_map>
 #include <functional>
 
-namespace SimpleEvent
+namespace Mooncake
 {
     /**
      * @brief Override to create your own argument shit
@@ -167,4 +167,4 @@ namespace SimpleEvent
          */
         static void Destroy();
     };
-} // namespace SimpleEvent
+} // namespace Mooncake

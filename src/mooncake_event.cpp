@@ -1,16 +1,16 @@
 /**
- * @file simple_event.cpp
+ * @file mooncake_event.cpp
  * @author Forairaaaaa
  * @brief
  * @version 0.1
- * @date 2024-09-19
+ * @date 2024-09-23
  *
  * @copyright Copyright (c) 2024
  *
  */
-#include "simple_event.h"
+#include "mooncake_event.h"
 
-using namespace SimpleEvent;
+using namespace Mooncake;
 
 bool EventBroker::fire(const std::string& eventType, EventArgs_t* args)
 {

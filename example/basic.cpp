@@ -1,17 +1,17 @@
 /**
- * @file simple_event_basic.cpp
+ * @file basic.cpp
  * @author Forairaaaaa
  * @brief
  * @version 0.1
- * @date 2024-09-19
+ * @date 2024-09-23
  *
  * @copyright Copyright (c) 2024
  *
  */
-#include <simple_event.h>
+#include <mooncake_event.h>
 #include <iostream>
 
-using namespace SimpleEvent;
+using namespace Mooncake;
 
 // 事件回调
 void onTeaTime1(EventArgs_t* args) { std::cout << "饮茶先啦\n"; }
