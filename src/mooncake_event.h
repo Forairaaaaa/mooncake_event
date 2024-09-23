@@ -85,6 +85,14 @@ namespace Mooncake
         bool stopListen(const std::string& eventType, int listenerId);
 
         /**
+         * @brief Get how many shit is listening the target event
+         * 
+         * @param eventType 
+         * @return int 
+         */
+        int getListenerNum(const std::string& eventType);
+
+        /**
          * @brief Fire event into async event queue
          *
          * @param eventType
@@ -138,6 +146,14 @@ namespace Mooncake
          * @return false
          */
         static bool StopListen(const std::string& eventType, int listenerId);
+
+        /**
+         * @brief Get how many shit is listening the target event
+         * 
+         * @param eventType 
+         * @return int 
+         */
+        static int GetListenerNum(const std::string& eventType);
 
         /**
          * @brief Fire event into async event queue

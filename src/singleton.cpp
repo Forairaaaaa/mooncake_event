@@ -32,6 +32,8 @@ int EventBroker::StartListen(const std::string& eventType, std::function<void(Ev
 
 bool EventBroker::StopListen(const std::string& eventType, int listenerId) { return _get()->stopListen(eventType, listenerId); }
 
+int EventBroker::GetListenerNum(const std::string& eventType) { return _get()->getListenerNum(eventType); }
+
 void EventBroker::HandleAsyncEvents() { _get()->handleAsyncEvents(); }
 
 void EventBroker::Reset() { _get()->reset(); }

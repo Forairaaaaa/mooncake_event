@@ -33,8 +33,8 @@ int main()
     // 222
     // 333
 
-    // 有两个监听者
-    std::cout << ">> firing with 3 listeners..\n";
+    // 有三个个监听者
+    std::cout << ">> firing with " << EventBroker::GetListenerNum("三点几啦") << " listeners..\n";
     for (int i = 0; i < 3; i++)
         EventBroker::FireAsync("三点几啦");
 
@@ -48,7 +48,7 @@ int main()
 
     // 删掉一个监听者
     EventBroker::StopListen("三点几啦", listener_id_2);
-    std::cout << ">> firing with 2 listeners..\n";
+    std::cout << ">> firing with " << EventBroker::GetListenerNum("三点几啦") << " listeners..\n";
     for (int i = 0; i < 3; i++)
         EventBroker::FireAsync("三点几啦");
 
@@ -63,7 +63,7 @@ int main()
     EventBroker::StopListen("三点几啦", listener_id_1);
     EventBroker::StopListen("三点几啦", listener_id_2); // 监听者 ID 唯一，重复删除没有影响
     EventBroker::StopListen("三点几啦", listener_id_3);
-    std::cout << ">> firing with 2 listeners..\n";
+    std::cout << ">> firing with " << EventBroker::GetListenerNum("三点几啦") << " listeners..\n";
     for (int i = 0; i < 3; i++)
         EventBroker::FireAsync("三点几啦");
 

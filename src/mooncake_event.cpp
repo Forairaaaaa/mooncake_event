@@ -69,6 +69,21 @@ bool EventBroker::stopListen(const std::string& eventType, int listenerId)
     return false;
 }
 
+int EventBroker::getListenerNum(const std::string& eventType)
+{
+    if (eventType.empty())
+        return 0;
+
+    // Find event
+    auto event_pair = _event_map.find(eventType);
+    if (event_pair != _event_map.end())
+    {
+        return event_pair->second.size();
+    }
+
+    return 0;
+}
+
 bool EventBroker::fireAsync(const std::string& eventType, EventArgs_t* args)
 {
     if (eventType.empty())
