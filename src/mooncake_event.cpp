@@ -10,7 +10,7 @@
  */
 #include "mooncake_event.h"
 
-using namespace Mooncake;
+using namespace mooncake;
 
 bool EventBroker::fire(const std::string& eventType, EventArgs_t* args)
 {
@@ -19,13 +19,11 @@ bool EventBroker::fire(const std::string& eventType, EventArgs_t* args)
 
     // Find event
     auto event_pair = _event_map.find(eventType);
-    if (event_pair != _event_map.end())
-    {
+    if (event_pair != _event_map.end()) {
         // Invoke listener callbacks
         for (const auto& listener : event_pair->second)
             listener.callback((args));
-    }
-    else
+    } else
         return false;
 
     return true;
@@ -46,20 +44,17 @@ int EventBroker::startListen(const std::string& eventType, std::function<void(Ev
     return _next_listener_id;
 }
 
-bool EventBroker::stopListen(const std::string& eventType, int listenerId)
+bool EventBroker::stopListen(const std::string& eventType, int listenerID)
 {
     if (eventType.empty())
         return false;
 
     // Find event
     auto event_pair = _event_map.find(eventType);
-    if (event_pair != _event_map.end())
-    {
+    if (event_pair != _event_map.end()) {
         // Find listener
-        for (auto listener = event_pair->second.begin(); listener != event_pair->second.end(); listener++)
-        {
-            if (listener->id == listenerId)
-            {
+        for (auto listener = event_pair->second.begin(); listener != event_pair->second.end(); listener++) {
+            if (listener->id == listenerID) {
                 event_pair->second.erase(listener);
                 return true;
             }
@@ -76,8 +71,7 @@ int EventBroker::getListenerNum(const std::string& eventType)
 
     // Find event
     auto event_pair = _event_map.find(eventType);
-    if (event_pair != _event_map.end())
-    {
+    if (event_pair != _event_map.end()) {
         return event_pair->second.size();
     }
 
@@ -100,12 +94,10 @@ bool EventBroker::fireAsync(const std::string& eventType, EventArgs_t* args)
 
 void EventBroker::handleAsyncEvents()
 {
-    for (const auto& async_event : _async_event_queue)
-    {
+    for (const auto& async_event : _async_event_queue) {
         // Find event
         auto event_pair = _event_map.find(async_event.type);
-        if (event_pair != _event_map.end())
-        {
+        if (event_pair != _event_map.end()) {
             // Invoke listener callbacks
             for (const auto& i : event_pair->second)
                 i.callback(async_event.args);

@@ -11,7 +11,7 @@
 #include <mooncake_event.h>
 #include <iostream>
 
-using namespace Mooncake;
+using namespace mooncake;
 
 // 事件回调
 void onTeaTime1(EventArgs_t* args) { std::cout << "111\n"; }

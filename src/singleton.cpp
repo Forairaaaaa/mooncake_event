@@ -10,33 +10,51 @@
  */
 #include "mooncake_event.h"
 
-using namespace Mooncake;
+using namespace mooncake;
 
 static EventBroker* _event_manger = nullptr;
 
 static EventBroker* _get()
 {
     if (_event_manger == nullptr)
-        _event_manger = new Mooncake::EventBroker;
+        _event_manger = new mooncake::EventBroker;
     return _event_manger;
 }
 
-bool EventBroker::Fire(const std::string& eventType, EventArgs_t* args) { return _get()->fire(eventType, args); }
+bool EventBroker::Fire(const std::string& eventType, EventArgs_t* args)
+{
+    return _get()->fire(eventType, args);
+}
 
-bool EventBroker::FireAsync(const std::string& eventType, EventArgs_t* args) { return _get()->fireAsync(eventType, args); }
+bool EventBroker::FireAsync(const std::string& eventType, EventArgs_t* args)
+{
+    return _get()->fireAsync(eventType, args);
+}
 
 int EventBroker::StartListen(const std::string& eventType, std::function<void(EventArgs_t*)> onNotify)
 {
     return _get()->startListen(eventType, onNotify);
 }
 
-bool EventBroker::StopListen(const std::string& eventType, int listenerId) { return _get()->stopListen(eventType, listenerId); }
+bool EventBroker::StopListen(const std::string& eventType, int listenerID)
+{
+    return _get()->stopListen(eventType, listenerID);
+}
 
-int EventBroker::GetListenerNum(const std::string& eventType) { return _get()->getListenerNum(eventType); }
+int EventBroker::GetListenerNum(const std::string& eventType)
+{
+    return _get()->getListenerNum(eventType);
+}
 
-void EventBroker::HandleAsyncEvents() { _get()->handleAsyncEvents(); }
+void EventBroker::HandleAsyncEvents()
+{
+    _get()->handleAsyncEvents();
+}
 
-void EventBroker::Reset() { _get()->reset(); }
+void EventBroker::Reset()
+{
+    _get()->reset();
+}
 
 void EventBroker::Destroy()
 {
