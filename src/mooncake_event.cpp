@@ -38,10 +38,12 @@ int EventBroker::startListen(const std::string& eventType, std::function<void(Ev
         return false;
 
     // Create listener info and hash in
-    _next_listener_id++;
-    _event_map[eventType].push_back({_next_listener_id, onNotify});
+    Listener_t new_listener;
+    new_listener.id = get_next_listener_id();
+    new_listener.callback = onNotify;
+    _event_map[eventType].push_back(new_listener);
 
-    return _next_listener_id;
+    return new_listener.id;
 }
 
 bool EventBroker::stopListen(const std::string& eventType, int listenerID)
@@ -112,5 +114,24 @@ void EventBroker::reset()
 {
     _async_event_queue.clear();
     _event_map.clear();
+    _available_ability_id_list.clear();
     _next_listener_id = 0;
+}
+
+int EventBroker::get_next_listener_id()
+{
+    int next_listener_id = -1;
+
+    // 检查可用 ID 列表
+    if (!_available_ability_id_list.empty()) {
+        next_listener_id = _available_ability_id_list.front();
+        _available_ability_id_list.erase(_available_ability_id_list.begin());
+        return next_listener_id;
+    }
+
+    // 如果没有，继续自加
+    next_listener_id = _next_listener_id;
+    _next_listener_id++;
+
+    return next_listener_id;
 }

@@ -15,6 +15,7 @@
 #include <functional>
 
 namespace mooncake {
+
 /**
  * @brief Override to create your own argument shit
  *
@@ -172,7 +173,10 @@ private:
     };
 
     int _next_listener_id = 0;
+    std::vector<int> _available_ability_id_list;
     std::unordered_map<std::string, ListenerList_t> _event_map;
     std::vector<AsyncEvent_t> _async_event_queue;
+
+    int get_next_listener_id();
 };
 } // namespace mooncake
