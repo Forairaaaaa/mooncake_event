@@ -58,6 +58,7 @@ bool EventBroker::stopListen(const std::string& eventType, int listenerID)
         for (auto listener = event_pair->second.begin(); listener != event_pair->second.end(); listener++) {
             if (listener->id == listenerID) {
                 event_pair->second.erase(listener);
+                _available_ability_id_list.push_back(listenerID);
                 return true;
             }
         }
