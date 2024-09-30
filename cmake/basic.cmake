@@ -5,12 +5,12 @@ cmake_policy(SET CMP0077 NEW)
 # Src files
 file(GLOB_RECURSE MOONCAKE_EVENT_SRCS
     ${MOONCAKE_EVENT_ROOT_DIR}/src/*.c
+    ${MOONCAKE_EVENT_ROOT_DIR}/src/*.cc
     ${MOONCAKE_EVENT_ROOT_DIR}/src/*.cpp
 )
 # Include
 set(MOONCAKE_EVENT_INCS
     ${MOONCAKE_EVENT_ROOT_DIR}/src/
-    ${MOONCAKE_EVENT_ROOT_DIR}/src/spdlog/include/
 )
 
 
