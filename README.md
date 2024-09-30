@@ -37,15 +37,15 @@ eb.handleAsyncEvents();
 
 如果需要线程异步，可以把 `handleAsyncEvents` 放线程里，给实例加锁就行
 
-#### 单例封装：
+#### 全局单例：
 
 ```cpp
 // 监听事件
-EventBroker::StartListen("三点几啦", onTeaTime1);
-EventBroker::StartListen("三点几啦", onTeaTime2);
+GetEventBroker().startListen("三点几啦", onTeaTime1);
+GetEventBroker().startListen("三点几啦", onTeaTime2);
 
 // 发布事件
-EventBroker::Fire("三点几啦");
+GetEventBroker().fire("三点几啦");
 // 输出:
 // 饮茶先啦
 // 啊?
@@ -73,7 +73,7 @@ public:
 
 ```cpp
 // 订阅者
-EventBroker::StartListen("topic-player-status", onPlayerStatusUpdate);
+GetEventBroker().startListen("topic-player-status", onPlayerStatusUpdate);
 
 // 派生事件参数
 struct PlayerStatus_t : public EventArgs_t
@@ -84,18 +84,18 @@ struct PlayerStatus_t : public EventArgs_t
 
 // 发布者
 player_status.hp = 66;
-EventBroker::Fire("topic-player-hp", &player_status);
+GetEventBroker().fire("topic-player-hp", &player_status);
 ```
 
 或者反过来 `请求/应答` 模式：
 
 ```cpp
 // 应答服务
-EventBroker::StartListen("service-player-status", [](EventArgs_t* args){
+GetEventBroker().startListen("service-player-status", [](EventArgs_t* args){
     auto player_status = (PlayerStatus_t*)args;
     player_status.hp = 233;
 });
 
 // 发送请求
-EventBroker::Fire("service-player-status", &player_status);
+GetEventBroker().fire("service-player-status", &player_status);
 ```

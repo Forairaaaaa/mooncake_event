@@ -9,6 +9,7 @@
  *
  */
 #include "mooncake_event.h"
+#include <memory>
 
 using namespace mooncake;
 
@@ -135,4 +136,24 @@ int EventBroker::get_next_listener_id()
     _next_listener_id++;
 
     return next_listener_id;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                  Singleton                                 */
+/* -------------------------------------------------------------------------- */
+// 全局单例
+
+static std::unique_ptr<EventBroker> _event_broker_instance;
+
+EventBroker& mooncake::GetEventBroker()
+{
+    if (!_event_broker_instance) {
+        _event_broker_instance = std::make_unique<EventBroker>();
+    }
+    return *_event_broker_instance;
+}
+
+void mooncake::DestroyEventBroker()
+{
+    _event_broker_instance->reset();
 }
