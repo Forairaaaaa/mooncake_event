@@ -1,5 +1,7 @@
 project(mooncake_event)
 
+cmake_policy(SET CMP0077 NEW)
+
 # Src files
 file(GLOB_RECURSE MOONCAKE_EVENT_SRCS
     ${MOONCAKE_EVENT_ROOT_DIR}/src/*.c
